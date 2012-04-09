@@ -10,22 +10,52 @@
 // 
 // get te request uri.
 $requestURI = strtolower(trim($_SERVER['REQUEST_URI']));
-$typeOfAd = getTypeOfAdForRequestURI($requestURI);
+$adInfo = getDescriptionOfAdForRequestURI($requestURI);
 
 // 
 // get a replacement.
-// TODO look it up better.
-$replacement = '/media/mlp_banner_1.png';
+if($adInfo['type'] == 'image') {
+  // find a choosing algorithm.
+  $replacement = '/media/mlp_banner_1.png';
+}
 
+// 
+// redirect to the replacement.
 header("Location: $replacement\n\n");
 die();
 
 
 
 
-function getTypeOfAdForRequestURI($uri) {
-  // TODO: lookup in the database
-  return "image";
+function getDescriptionOfAdForRequestURI($uri) {
+  $hostname = $_SERVER['HTTP_HOST'];
+
+  $fp = fopen("repos.conf", "r");
+  while($x = getRepoLine($fp)) {
+    if(strtolower($x['domain']) == strtolower($hostname)) {
+      return $x;
+    }
+  }
+
+  return null;
+}
+
+function getRepoLine($fp) {
+  // read a line.
+  $line = fgets($fp);
+  
+if($line == null) {
+    return null;
+  }
+
+  // remove withespaces.
+  $line = trim($line);
+
+  // split the line.
+  list($urlpart, $type) = explode("=", $line);
+  list($domainpart, $uripart) = explode("/", $urlpart, 2); 
+
+  return array('url' => $urlpart, 'type' => $type, 'domain' => $domainpart, 'uri' => '/' . $uripart);
 }
 
 

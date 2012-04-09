@@ -41,7 +41,7 @@ $fp = fopen("/etc/hosts", "w");
 fwrite($fp, getHostFileBeginning());
 
 foreach($services as $service) {
-  fwrite($fp, "127.0.0.1 " . $service);
+  fwrite($fp, "127.0.0.1 " . $service . "\n");
 }
 
 // 
@@ -49,7 +49,7 @@ foreach($services as $service) {
 $adImposerServerAliases = array();
 $fp2 = fopen("<WWW_AD_ROOT>/repos.conf", "r");
 while($x = getRepoLine($fp2)) {
-  fwrite($fp, "127.0.0.1 " . $x['domain']);
+  fwrite($fp, "127.0.0.1 " . $x['domain'] . "\n");
   $adImposerServerAliases []= $x['domain'];
 }
 
@@ -77,11 +77,11 @@ fwrite($fp, "    Order allow,deny\n");
 fwrite($fp, "    allow from all\n");
 fwrite($fp, "  </Directory>\n");
 fwrite($fp, "  \n");
-fwrite($fp, "  ErrorLog ${APACHE_LOG_DIR}/service-error.log\n");
+fwrite($fp, "  ErrorLog /var/log/apache2/service-error.log\n");
 fwrite($fp, "  \n");
 fwrite($fp, "  LogLevel warn\n");
 fwrite($fp, "  \n");
-fwrite($fp, "  CustomLog ${APACHE_LOG_DIR}/service-access.log combined\n");
+fwrite($fp, "  CustomLog /var/log/apache2/service-access.log combined\n");
 fwrite($fp, "</VirtualHost>");
 fclose($fp);
 
