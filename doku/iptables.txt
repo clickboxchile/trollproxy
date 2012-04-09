@@ -1,0 +1,5 @@
+This will probably configure iptables on a router to go through the transparent proxy:
+
+iptabled -t nat -A PREROUTING -p tcp --dport 80 -s <TROLLPROXY> -j ACCEPT
+iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination 10.1.13.27:8123
+

@@ -24,6 +24,8 @@ function replacePaths {
 
 	replacePath $1 "<WWW_AD_ROOT>" "${WWWROOT}/ads"
 	replacePath $1 "<WWW_VHOST_ROOT>" "${WWWROOT}/vhosts"
+	replacePath $1 "<DOMAIN>" "${DOMAIN}"
+	replacePath $1 "<MYNET>" "${MYNET}"
 }
 
 

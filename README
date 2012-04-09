@@ -1,0 +1,9 @@
+Trollproxy
+
+project, UEBLES GEMURKSE, software, infrastructure, tools
+The trollproxy project is a project to build a piece of infrastructure for the shackspace. The idea is to setup a transparent proxy that will exchange ads from google, etc. with ads for nonexisting services and host some of those services locally in the shackspace lan. The target audience for this content modifications are people mooching off our WLAN.
+
+There will be a git repo: https://github.com/reloc0/trollproxy
+
+have a lot of fun.
+

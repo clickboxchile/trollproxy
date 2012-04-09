@@ -1,0 +1,50 @@
+#       WELCOME TO SQUID 2.7.STABLE9
+#       ----------------------------
+#
+
+# OPTIONS FOR TRANSPARENT PROXY
+# -----------------------------------------------------------------------------
+
+hosts_file /etc/hosts
+http_port 3128 
+# transparent
+icp_port 0
+cache_dir null /null
+
+# 
+# definition of ACLs
+acl all src 0.0.0.0/0.0.0.0
+acl manager proto cache_object
+acl localhost src 127.0.0.1/255.255.255.255
+acl SSL_ports port 443 563
+acl Safe_ports port 80          # http
+acl Safe_ports port 21          # ftp
+acl Safe_ports port 443 563     # https, snews
+acl Safe_ports port 70          # gopher
+acl Safe_ports port 210         # wais
+acl Safe_ports port 1025-65535  # unregistered ports
+acl Safe_ports port 280         # http-mgmt
+acl Safe_ports port 488         # gss-http
+acl Safe_ports port 591         # filemaker
+acl Safe_ports port 777         # multiling http
+acl CONNECT method CONNECT
+
+
+#
+# Only allow cachemgr access from localhost
+http_access allow manager localhost
+http_access deny manager
+
+# 
+# Deny requests to unknown ports
+http_access deny !Safe_ports
+
+acl our_networks src <MYNET>
+http_access allow our_networks
+
+# And finally deny all other access to this proxy
+http_access deny all
+
+# shutdown
+shutdown_lifetime 5 seconds
+
