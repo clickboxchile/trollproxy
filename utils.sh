@@ -26,6 +26,9 @@ function replacePaths {
 	replacePath $1 "<WWW_VHOST_ROOT>" "${WWWROOT}/vhosts"
 	replacePath $1 "<DOMAIN>" "${DOMAIN}"
 	replacePath $1 "<MYNET>" "${MYNET}"
+    replacePath $1 "<LOCALDNS1>" "${LOCALDNS1}"
+    replacePath $1 "<LOCALDNS2>" "${LOCALDNS2}"
+    replacePath $1 "<LOCALDNS3>" "${LOCALDNS3}"
 }
 
 

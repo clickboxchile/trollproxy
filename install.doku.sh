@@ -9,6 +9,9 @@ TARGETHOST=10.1.13.30
 BINDIR=/root/bin
 DOMAIN=shack
 WWWROOT=/var/www
+LOCALDNS1=10.0.0.1
+LOCALDNS2=8.8.8.8
+LOCALDNS3=8.8.8.8
 WWWROOT_ESCAPED=`echo "<?php echo str_replace('/', '\\/', '${WWWROOT}'); ?>" | php 2> /dev/null`
 MYNET=10.1.0.0/255.255.0.0
 
@@ -33,7 +36,7 @@ scp ${LOCALKEYFILE} root@${TARGETHOST}:/root/.ssh/authorized_keys
 
 # 
 # remove nano, install vim and other dependencies...
-ssh root@${TARGETHOST} apt-get install squid sudo libapache2-mod-php5 php5-sqlite openssh-server vim less
+ssh root@${TARGETHOST} apt-get install squid sudo libapache2-mod-php5 php5-sqlite openssh-server vim less dnsmasq
 ssh root@${TARGETHOST} apt-get remove nano
 
 # make directories to put our stuff on the remote machine.
@@ -53,6 +56,9 @@ replacePaths "build/squidconfig"
 cp src/showad.php build
 replacePaths "build/showad.php"
 
+cp src/dnsmasq.conf build
+replacePaths "build/dnsmasq.conf"
+
 
 # 
 # install the utility to regenerate the apache configuration
@@ -64,6 +70,7 @@ scp repo/repos.conf root@${TARGETHOST}:/var/www/ads
 scp build/showad.php root@${TARGETHOST}:/var/www/ads/index.php
 scp src/showad.htaccess root@${TARGETHOST}:/var/www/ads/.htaccess
 scp -r repo/ads root@${TARGETHOST}:/var/www/ads/media
+scp build/dnsmasq.conf root@${TARGETHOST}:/etc
 
 # 
 # add a cronjob to perform regular jobs.
@@ -73,6 +80,7 @@ scp src/cronjobs root@${TARGETHOST}:/etc/cron.d/trollProxy
 # need mod rewrite and apache restart.
 ssh root@${TARGETHOST} a2enmod rewrite
 ssh root@${TARGETHOST} service apache2 restart
+ssh root@${TARGETHOST} service dnsmasq restart
 
 # cleanup 
 rm -r build

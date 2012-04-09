@@ -72,7 +72,7 @@ fwrite($fp, "    AllowOverride None\n");
 fwrite($fp, "  </Directory>\n");
 fwrite($fp, "  <Directory <WWW_AD_ROOT>>\n");
 fwrite($fp, "    Options Indexes FollowSymLinks MultiViews\n");
-fwrite($fp, "    AllowOverride None\n");
+fwrite($fp, "    AllowOverride All\n");
 fwrite($fp, "    Order allow,deny\n");
 fwrite($fp, "    allow from all\n");
 fwrite($fp, "  </Directory>\n");
